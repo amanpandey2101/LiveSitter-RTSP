@@ -45,7 +45,7 @@ The Livestream Overlays application allows users to display overlays on a video 
 
 1. Navigate to the backend directory:
    ```bash
-   cd livestream-overlays/backend
+   cd backend
    ```
 2. Create a virtual environment (optional but recommended):
    ```bash
@@ -56,7 +56,10 @@ The Livestream Overlays application allows users to display overlays on a video 
    ```bash
    pip install -r requirements.txt
    ```
-
+4. Create a .env file in the backend directory and inclde the MongoDB connection string in MONGO_URI env variable :
+   ```bash
+    MONGO_URI = mongodb://localhost:27017/livestream_overlay
+    ```
 ### Install Frontend Dependencies
 
 1. Navigate to the frontend directory:
