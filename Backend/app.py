@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 #Replace with RTSP URL
-RTSP_URL = 'rtsp://rtspstream:784bd2de3ce0a097fabce629900d68eeeee6a@zephyr.rtsp.stream/movie'
+RTSP_URL = 'rtsp://rtspstream:784bd2de3ce0a097fabce629900d686a@zephyr.rtsp.stream/movie'
 
 app.register_blueprint(overlay_bp)
 @app.route('/')
