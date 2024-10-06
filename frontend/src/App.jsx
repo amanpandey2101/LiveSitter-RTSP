@@ -22,7 +22,7 @@ function App() {
       <h1 className="text-3xl font-bold mt-10 text-black">LiveSitter Assignment</h1>
       <div className='flex lg:flex-row flex-col w-full mb-10 justify-center'>
 
-      <LivestreamPlayer overlays={overlays} videoUrl = {videoUrl}  />
+      <LivestreamPlayer overlays={overlays} videoUrl = {videoUrl} />
       <OverlayManager fetchOverlays={fetchOverlays} />
       </div>
 

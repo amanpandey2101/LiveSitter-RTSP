@@ -1,22 +1,14 @@
 import { useState, useEffect, useRef } from "react";
-import { getOverlays } from "../api";
+import { getOverlays, createOverlay } from "../api";
 import Hls from "hls.js";
 import PropTypes from "prop-types";
 
 
-const LivestreamPlayer = ({ videoUrl }) => {
-  const [overlays, setOverlays] = useState([]);
+const LivestreamPlayer = ({ videoUrl, overlays }) => {
+  // const [overlays, setOverlays] = useState([]);
   const videoRef = useRef(null);
 
 
-  useEffect(() => {
-    const fetchOverlays = async () => {
-      const data = await getOverlays();
-      setOverlays(data);
-    };
-
-    fetchOverlays();
-  }, []);
   useEffect(() => {
     if (Hls.isSupported()) {
       const hls = new Hls();
