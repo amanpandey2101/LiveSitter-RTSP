@@ -1,10 +1,10 @@
-import  { useState } from 'react';
-import { createOverlay } from '../api';
-
+import { useState } from "react";
+import { createOverlay } from "../api";
+import PropTypes from "prop-types";
 const OverlayManager = ({ fetchOverlays }) => {
   const [overlay, setOverlay] = useState({
-    overlay_type: 'text',
-    content: '',
+    overlay_type: "text",
+    content: "",
     position: { x: 0, y: 0 },
     size: { width: 100, height: 100 },
   });
@@ -123,5 +123,9 @@ const OverlayManager = ({ fetchOverlays }) => {
     </div>
   );
 };
+
+OverlayManager.propTypes = {
+  fetchOverlays: PropTypes.func.isRequired,
+}
 
 export default OverlayManager;

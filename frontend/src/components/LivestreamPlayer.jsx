@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { getOverlays } from '../api';
-import Hls from 'hls.js';
+import { useState, useEffect, useRef } from "react";
+import { getOverlays } from "../api";
+import Hls from "hls.js";
+import PropTypes from "prop-types";
 
-
-const LivestreamPlayer = ({videoUrl}) => {
+const LivestreamPlayer = ({ videoUrl }) => {
   const [overlays, setOverlays] = useState([]);
   const videoRef = useRef(null);
 
@@ -18,27 +18,28 @@ const LivestreamPlayer = ({videoUrl}) => {
   useEffect(() => {
     if (Hls.isSupported()) {
       const hls = new Hls();
-      hls.loadSource(videoUrl); 
+      hls.loadSource(videoUrl);
       hls.attachMedia(videoRef.current);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         videoRef.current.play();
       });
-    } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+    } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
       videoRef.current.src = videoUrl;
-      videoRef.current.addEventListener('loadedmetadata', () => {
+      videoRef.current.addEventListener("loadedmetadata", () => {
         videoRef.current.play();
       });
     }
   }, [videoUrl]);
   return (
     <div className="relative w-full max-w-4xl mx-auto mt-10 shadow-xl">
-      {/* Video Player */}
-      <video  ref={videoRef} controls autoPlay muted className="w-full h-full rounded-lg shadow-xl">
-      
-      </video>
+      <video
+        ref={videoRef}
+        controls
+        autoPlay
+        muted
+        className="w-full h-full rounded-lg shadow-xl"
+      ></video>
 
-
-    
       {overlays.map((overlay) => (
         <div
           key={overlay._id}
@@ -50,15 +51,23 @@ const LivestreamPlayer = ({videoUrl}) => {
             height: `${overlay.size.height}px`,
           }}
         >
-          {overlay.overlay_type === 'text' ? (
+          {overlay.overlay_type === "text" ? (
             <p className="text-center">{overlay.content}</p>
-          ) : overlay.overlay_type === 'image' ? (
-            <img src={overlay.content} alt="overlay" className="w-full h-full object-cover" />
+          ) : overlay.overlay_type === "image" ? (
+            <img
+              src={overlay.content}
+              alt="overlay"
+              className="w-full h-full object-cover"
+            />
           ) : null}
         </div>
       ))}
     </div>
   );
 };
+LivestreamPlayer.propTypes = {
+  videoUrl: PropTypes.string
+}
 
 export default LivestreamPlayer;
+

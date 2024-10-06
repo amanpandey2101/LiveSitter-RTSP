@@ -4,17 +4,20 @@ from overlay_controller import overlay_bp
 import subprocess
 import os
 import logging
+
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 CORS(app)
 
-app.register_blueprint(overlay_bp)
+#Replace with RTSP URL
+RTSP_URL = 'rtsp://rtspstream:784bd2de3ce0a097fabce629900d686a@zephyr.rtsp.stream/movie'
 
+app.register_blueprint(overlay_bp)
 @app.route('/')
 def home():
     return {"message": "LiveStream overlay API"}
 
-# Serve the HLS files from the 'hls' directory
+
 @app.route('/hls/<path:filename>')
 def serve_hls(filename):
     hls_dir = os.path.join(os.getcwd(), 'hls')
@@ -26,7 +29,7 @@ def start_stream():
     logging.debug(f"Current working directory: {current_dir}")
     logging.debug(f"HLS directory: {hls_dir}")
 
-    # Ensure the HLS directory exists
+
     try:
         if not os.path.exists(hls_dir):
             os.makedirs(hls_dir)
@@ -35,28 +38,27 @@ def start_stream():
             logging.info("HLS directory already exists.")
     except Exception as e:
         logging.error(f"Error creating HLS directory: {e}")
-        return  # If there's an error, exit the function
-    # Create the HLS directory if it doesn't exist
+        return  
     if not os.path.exists(hls_dir):
         os.makedirs(hls_dir)
 
-    # Output HLS file
+  
     output_file = os.path.join(hls_dir, 'stream.m3u8')
 
-    # FFmpeg command to stream RTSP to HLS
+  
     command = [
         'ffmpeg', '-y',
-        '-i', 'rtsp://rtspstream:784bd2de3ce0a097fabce629900d686a@zephyr.rtsp.stream/movie',
+        '-i', RTSP_URL,
         '-c:v', 'libx264',
         '-f', 'hls',
-        '-hls_time', '4',  # Duration of each HLS segment in seconds
-        '-hls_list_size', '5',  # Number of HLS segments to keep in playlist
-        '-hls_flags', 'delete_segments',  # Delete old segments to save space
+        '-hls_time', '4',  
+        '-hls_list_size', '5',  
+        '-hls_flags', 'delete_segments', 
         '-hls_segment_filename', os.path.join(hls_dir, 'segment_%03d.ts'),
         output_file
     ]
 
-    # Run the FFmpeg process in the background
+
     subprocess.Popen(command)
     try:
         print("Starting FFmpeg process...")
@@ -66,5 +68,5 @@ def start_stream():
         print(f"Error starting FFmpeg: {e}")
 
 if __name__ == '__main__':
-    start_stream()  # Start the FFmpeg process when the Flask server starts
+    start_stream()  
     app.run(debug=True, host='localhost', port=5000, use_reloader=False)
