@@ -3,9 +3,11 @@ import { getOverlays } from "../api";
 import Hls from "hls.js";
 import PropTypes from "prop-types";
 
+
 const LivestreamPlayer = ({ videoUrl }) => {
   const [overlays, setOverlays] = useState([]);
   const videoRef = useRef(null);
+
 
   useEffect(() => {
     const fetchOverlays = async () => {

@@ -7,7 +7,8 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
-CORS(app)
+
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 
 #Replace with RTSP URL
 RTSP_URL = 'rtsp://rtspstream:784bd2de3ce0a097fabce629900d686a@zephyr.rtsp.stream/movie'

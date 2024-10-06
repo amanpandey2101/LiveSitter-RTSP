@@ -46,7 +46,7 @@ const OverlayManager = ({ fetchOverlays }) => {
           value={overlay.content}
           onChange={handleInputChange}
           placeholder="Enter text or image URL"
-          className="block w-full p-2 border border-gray-300 rounded-md text-white  "
+          className="block w-full p-2 border border-gray-300 rounded-md text-white bg-black  "
         />
       </div>
 

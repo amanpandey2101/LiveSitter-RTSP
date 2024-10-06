@@ -12,7 +12,6 @@ def create_overlay():
         "content": data.get("content"),
         "position": data.get("position", {"x": 0, "y": 0}),
         "size": data.get("size", {"width": 100, "height": 100}),
-        "timestamp": data.get("timestamp")
     }
     result = overlays_collection.insert_one(overlay)
     return jsonify({"success": True, "overlay_id":str(result.inserted_id)}), 201
